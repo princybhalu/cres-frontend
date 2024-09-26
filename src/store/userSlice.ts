@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { User } from '../interface/user';
+import {loginUser as loginUserApi} from "../services/authServices";
 
 interface UserState {
   isLoggedIn: boolean;
@@ -16,9 +17,9 @@ const initialState: UserState = {
 
 export const loginUser = createAsyncThunk(
   'user/login',
-  async (credentials: { username: string; password: string }, { rejectWithValue }) => {
+  async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post<User>('/api/login', credentials);
+      const response = await loginUserApi(credentials);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
