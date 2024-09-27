@@ -22,6 +22,7 @@ function CanIHavePermission({
     const authorized = doesUserHasPermissions({
       //@ts-ignore  
       userPermissions: user.permissions,
+      // @ts-ignore
       actions: permissions,
       projectId: projectId,
       any,

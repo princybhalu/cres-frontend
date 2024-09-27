@@ -8,7 +8,8 @@ const tasks = [
       role: "admin",
       pendingTaskCount: 3, // For admin
       pendingProgressCount: 2,    // For admin (pending for review)
-      remainingProgessToComplete: 4 // For user role
+      remainingProgessToComplete: 4, // For user role
+      progressPercentage: 10
     },
     {
       id: 2,
@@ -19,7 +20,8 @@ const tasks = [
       role: "user",
       pendingTaskCount: null, // Not applicable for user
       pendingProgressCount: null,     // Not applicable for user
-      remainingProgessToComplete: 1   // For user role
+      remainingProgessToComplete: 1,   // For user role
+      progressPercentage: 50
     },
     {
       id: 3,
@@ -30,7 +32,8 @@ const tasks = [
       role: "admin",
       pendingTaskCount: 1, // For admin
       pendingProgressCount: 5,    // For admin (pending for review)
-      remainingProgessToComplete: 3 // For user role
+      remainingProgessToComplete: 3, // For user role
+      progressPercentage: 40
     },
     {
       id: 4,
@@ -41,7 +44,8 @@ const tasks = [
       role: "user",
       pendingTaskCount: null, // Not applicable for user
       pendingProgressCount: null,     // Not applicable for user
-      remainingProgessToComplete: 2   // For user role
+      remainingProgessToComplete: 2 ,  // For user role
+      progressPercentage: 20
     },
     {
       id: 5,
@@ -52,7 +56,8 @@ const tasks = [
       role: "admin",
       pendingTaskCount: 4, // For admin
       pendingProgressCount: 1,     // For admin (pending for review)
-      remainingProgessToComplete: 5 // For user role
+      remainingProgessToComplete: 5, // For user role
+      progressPercentage:95
     },
   ];
   

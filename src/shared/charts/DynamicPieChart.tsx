@@ -1,41 +1,134 @@
-import React from "react";
-import { Chart } from "react-google-charts";
+import React, { useEffect, useRef, useState } from "react";
+import Highcharts from "highcharts/highstock";
+import HighchartsReact from "highcharts-react-official";
 
-export const data = [
-  ["Task", "Hours per Day"],
-  ["Work", 11],
-  ["Eat", 2],
-  ["Commute", 2],
-  ["Watch TV", 2],
-  ["Sleep", 7],
-];
-
-export const options = {
-  title: "My Daily Activities",
-};
-
-export default function App() {
-
-  const handleClick = (entry : any ,value : any) => {
-        // setSelectedSection(entry);
-        console.log("entry : " , entry , value);
-        
-      };
-
-  return (
-    <Chart
-      chartType="PieChart"
-      data={data}
-      options={options}
-      width={"100%"}
-      height={"400px"}
-      //@ts-ignore
-      onClick={handleClick}
-    />
-  );
+interface PieChartPropsType {
+  chart?: object;
+  title?: object;
+  series: Array<any>;
+  legend?: object;
+  plotOptions?: object;
+  otherOption?: object;
+  isNoDataFound?: boolean;
+  formatofName?: string;
+  dataLabels?: object;
 }
 
+export default function DynamicPieChart({
+  chart = {},
+  title = {},
+  legend = {},
+  plotOptions = {},
+  series,
+  otherOption = {},
+  isNoDataFound = false,
+  formatofName = "<span class='pichartDataLabel'>{point.name} : {point.y}</span> ",
+  dataLabels = {},
+}: PieChartPropsType) {
+  const [options, setOptions] = useState(null);
+  const chartReference = useRef(null);
 
+  const reload = () => {
+    if (chartReference.current) {
+      //@ts-ignore
+      const chartRef = chartReference.current?.chart;
+      if (chartRef) {
+        chartRef.reflow(false);
+      }
+    }
+  };
+  useEffect(() => {
+    setOptions({
+      //@ts-ignore
+      chart: {
+        backgroundColor: "rgba(0,0,0,0)",
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: "pie",
+        showInLegend: true,
+        width: 400, // Set your desired width
+        height: 300, // Set your desired height
+        ...chart,
+      },
+      title: {
+        text: null,
+        ...title,
+      },
+      legend: {
+        itemStyle: {
+          color: "#2E2E2E", // Font color
+          fontSize: 13,
+          fontFamily: "Inter,sans-serif",
+          fontWeight: "normal",
+        },
+        ...legend,
+      },
+      credits: {
+        enabled: false,
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          cursor: "pointer",
+          showInLegend: true,
+          dataLabels: {
+            enabled: true,
+            connectorColor: "silver",
+            color: "#7C7C7C",
+            format: formatofName,
+            textOutline: 0,
+            ...dataLabels,
+            style: {
+              fontWeight: 400,
+              color: "#7C7C7C",
+              fontFamily: "Inter,sans-serif",
+              textOutline: 0,
+              fontSize: 14,
+            },
+          },
+          ...plotOptions,
+        },
+      },
+      exporting: {
+        buttons: {
+          contextButton: {
+            symbol: "url(images/download.svg)",
+            menuItems: [
+              "downloadPNG",
+              "downloadJPEG",
+              "downloadPDF",
+              "downloadSVG",
+            ],
+          },
+        },
+      },
+      navigation: {
+        buttonOptions: {
+          align: "left",
+        },
+      },
+      series: series,
+      ...otherOption,
+    });
+  }, [series]);
+
+  return (
+    <>
+      {isNoDataFound ? (
+        <div>
+          <img src={"/pi-chart-placeholder.svg"} />
+          <span>No Data Found </span>
+        </div>
+      ) : (
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={options}
+          ref={chartReference}
+        />
+      )}
+    </>
+  );
+}
 
 // import React, { useState } from 'react';
 // import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
@@ -82,7 +175,7 @@ export default function App() {
 //     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
 //     const x = cx + radius * Math.cos(-midAngle * RADIAN);
 //     const y = cy + radius * Math.sin(-midAngle * RADIAN);
-  
+
 //     return (
 //       <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
 //         {`${(percent * 100).toFixed(0)}%`}

@@ -18,7 +18,7 @@ const Login: React.FC = () => {
       loginUser({ email, password })
     );
     if (loginUser.fulfilled.match(resultAction)) {
-      navigate("/dashboard");
+      navigate("/");
     }
   };
 

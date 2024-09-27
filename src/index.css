@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,11 +10,21 @@
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+} */
+
+body {
+  @apply font-poppins; /* Apply Poppins font globally */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
- 
 /* theme : #3f6ca5 , rgba(63,108,165,255) */
+
+.ag-theme-quartz {
+  /* Changes the color of the grid text */
+  --ag-foreground-color: #3f6ca5;
+  /* Changes the color of the grid background */
+  --ag-background-color: #3f6ca5;
+  /* Changes the header color of the top row */
+  --ag-header-background-color: #3f6ca5;
+  /* Changes the hover color of the row*/
+  --ag-row-hover-color: #3f6ca5;
+}
