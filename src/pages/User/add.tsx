@@ -9,7 +9,7 @@ const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
   description: yup.string().required("Description is required"),
   location: yup.string().required("Location is required"),
-  picture: yup.mixed().required("A picture is required"), // Max 2MB
+  picture: yup.mixed().required("A picture is required"), 
 });
 
 interface FormData {
@@ -19,9 +19,9 @@ interface FormData {
   picture: FileList;
 }
 
-const AddProject = () => {
+const AddUser = () => {
   const navigate = useNavigate();
-  const [file, fileChange] = useState();
+  
 
   const {
     control,
@@ -40,32 +40,6 @@ const AddProject = () => {
       picture: null,
     };
 
-    let urlData;
-    try {
-        //Request Body To Pass Api
-        const formData = new FormData();
-        console.log(file);
-        //@ts-ignore
-        formData.append("file", file);
-        formData.append("upload_preset", "publish_page");
-
-        const response = await fetch(
-            `https://api.cloudinary.com/v1_1/dqh3wljk0/image/upload`,
-            {
-                method: "post",
-                body: formData,
-            }
-        );
-        urlData = await response.json();
-        urlData = urlData?.url;
-        console.log(urlData);
-
-    } catch (err) {
-        console.log(err);
-    }
-    //@ts-ignore
-    requestBody.picture = urlData;
-
     try{
         let data = await addProjectApiCall(requestBody);
         console.log("data : " , data);
@@ -81,9 +55,9 @@ const AddProject = () => {
     <>
       {/* Bradscrems */}
       <div className="w-full p-4 flex text-lg">
-        <p className="text-[#2f1380] mr-2" onClick={() => navigate("/")}>
+        <p className="text-[#2f1380] mr-2" onClick={() => navigate("/users")}>
           {" "}
-          Projects{" "}
+          Users{" "}
         </p>{" "}
         &gt;
         <p className="text-[#2f1380] ml-2 "> Add </p>
@@ -91,7 +65,7 @@ const AddProject = () => {
       {/* Add Form */}
       <div className="bg-gray-100 p-2 h-screen">
         <div className=" mx-auto mt-4 max-w-5xl">
-          <h2 className="font-bold text-2xl m-2">Add Project</h2>
+          <h2 className="font-bold text-2xl m-2">Add User</h2>
 
           <div className="h-full bg-white w-full border border-gray-200 p-4">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -209,4 +183,4 @@ const AddProject = () => {
   );
 };
 
-export default AddProject;
+export default AddUser;

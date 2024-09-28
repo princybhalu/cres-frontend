@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from "react";
 import Navbar from "../Navbar";
 import LeftsideBar from "../LeftsideBar";
-// import
+import { useNavigate } from "react-router-dom";
 
 interface LayoutProps {
   children: ReactNode; // This defines the type for children
@@ -11,9 +11,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentScreen, setCurrentScreen] = useState("dashboard");
 
+  const navigation = useNavigate();
+
   const handleNavigation = (screen: string, path: string) => {
     setCurrentScreen(screen);
     setIsMobileMenuOpen(false);
+    navigation(path);
   };
 
   return (
@@ -44,7 +47,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         />
 
         {/* Main content */}
-        <main className="flex-1 p-4 overflow-auto">{children}</main>
+        <main className="flex-1 overflow-auto">{children}</main>
       </div>
     </div>
   );

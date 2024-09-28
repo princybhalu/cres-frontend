@@ -3,10 +3,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import TaskList from "../shared/Project/listPage";
 import { TaskStatusChart } from "../shared/charts/taskStatusChart";
+import DateRangePickerComp from "../shared/datePicker";
 // import DateRangePicker from "../shared/datePicker";
 
 const Dashboard: React.FC = () => {
   const user = useSelector((state: RootState) => state.user.user);
+  console.log("user : " , user);
+  
 
   if (!user) return <></>;
 
@@ -29,6 +32,8 @@ const Dashboard: React.FC = () => {
 
       {/* display list */}
       <TaskList />
+
+      {/* <DateRangePickerComp /> */}
 
     </>
   );

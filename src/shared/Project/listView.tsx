@@ -8,7 +8,7 @@ const ProjectListView: React.FC = ({ ProjectData }: any) => {
   console.log("ProjectData : ", ProjectData);
 
   const columnDefs = [
-    { field: "title", filter: true, name: "Title" },
+    { field: "name", filter: true, name: "Name" },
     { field: "description" },
     { field: "location", filter: true },
     { field: "newCommentCount" },
@@ -16,7 +16,7 @@ const ProjectListView: React.FC = ({ ProjectData }: any) => {
     { field: "pendingTaskCount" },
     { field: "pendingProgressCount" },
     { field: "remainingProgessToComplete" },
-    { field: "progressPercentage" },
+    { field: "progress_percentage" },
   ];
 
   return (

@@ -57,16 +57,17 @@ const ListPage = () => {
   };
 
   const OnClickOnAddOfProject = () => {
-    console.log(" TODO : redirect To ADD PAGE");
     navigate("/project/add");
   };
 
   //   API CALLES
   const getProjectList = async () => {
     try {
-      const ProjectDetails = await getProjectListForDashboard(
+      const { data: ProjectDetails } = await getProjectListForDashboard(
         currentlyAppliedFilter
       );
+      console.log("ProjectDetails : " , ProjectDetails);
+      
       setProjectDetails(ProjectDetails);
     } catch (err) {
       console.log("error in geting project list");

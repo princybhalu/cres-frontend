@@ -3,6 +3,7 @@ import CloseIcon from "../icons/close-icon";
 import ProfileIcon from "../icons/profile-icon";
 import MenuIcon from "../icons/menu-icon";
 import NotifictionBellIcon from "../icons/notifiction-bell-icon";
+import { useNavigate } from "react-router-dom";
 
 interface LeftsideBarProps {
     currentScreen: string;
@@ -107,7 +108,7 @@ const menuItems: MenuItem[] = [
 
 const LeftsideBar: React.FC<LeftsideBarProps> = ({currentScreen ,handleNavigation , isMobileMenuOpen , IsIsMobileMenuOpenFun }) => {
   const [isCompact, setIsCompact] = useState(true);
-
+  
   return (
     <>
       {/* Sidebar for laptop view */}

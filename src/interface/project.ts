@@ -1,6 +1,6 @@
 export interface ProjectForDashboard {
     id: number;
-    title: string;
+    name: string;
     description: string;
     location: string;
     newCommentCount: number;
@@ -8,5 +8,6 @@ export interface ProjectForDashboard {
     pendingTaskCount?: number; // For admin
     pendingProgressCount?: number; // For admin (pending for review)
     remainingProgessToComplete?: number; // For user role
-    progressPercentage: number; 
+    progress_percentage: number; 
+    picture?:string
   }
