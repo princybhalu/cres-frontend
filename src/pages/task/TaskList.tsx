@@ -2,22 +2,22 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { selectProjects } from "../../store/projectsSlice";
-import LoaderIcon from "../../shared/icons/loader-icon";
+import { TaskStatusChart } from "../../shared/charts/taskStatusChart";
 import PlusIcon from "../../shared/icons/plus-icon";
 import { AgGridReact } from "ag-grid-react";
-import "@ag-grid-community/styles/ag-grid.css";
-import "@ag-grid-community/styles/ag-theme-quartz.css";
-import { getMembersOfProject } from "../../services/projectService";
+import { getProgessOfProject, getTaskOfProject } from "../../services/projectService";
 
-
-
-const MembersList = () => {
+const ProgessList = () => {
   const navigate = useNavigate();
   const { projectId } = useParams();
   const projects = useSelector(selectProjects);
   const ProjectName = projects.find(({ id }) => id === projectId)?.name;
-  const [isLoading, setIsLoading] = useState(false);
-  const [memeberData, setMemberData] = useState(null);
+
+  const [TaskData , setTaskData] = useState(null);
+
+  const OnClickOnAddOfTask = () => {
+    navigate("/project/" + projectId + "/task/add");
+  };
 
   const columnDefs = [
     { field: "email", filter: true, name: "Email" },
@@ -34,37 +34,28 @@ const MembersList = () => {
     { field: "role" },
     { field: "age" },
     { field: "dob" },
-    { field: "role" },
-    // { field: "permissions", 
-    //   // cellRenderer: (params: any) => {
-    //   // return projectId ? params.data.permissions[projectId] ? Object.keys(params.data.permissions[projectId]) : "" : "";} 
-    // },
+    { field: "role" }
   ];
 
-  const getDataOfMembeList = async () => {
+  const getDataOfProgessList = async () => {
     try {
       if (projectId) {
-        const { data: memeberDetails } = await getMembersOfProject(projectId);
-        console.log("memeberDetails : ", memeberDetails);
+        const { data } = await getTaskOfProject(projectId);
+        console.log("memeberDetails : ", data);
 
-        setMemberData(memeberDetails);
+        setTaskData(data);
       }
     } catch (err) {
       console.log("err : ", err);
     } finally {
-      setIsLoading(false);
     }
   };
 
-  const OnClickOnAddOfMember = () => {
-    navigate("/project/" + projectId + "/members/add");
-  };
-
   useEffect(() => {
-    getDataOfMembeList().then();
+    getDataOfProgessList().then();
     return () => {};
   }, []);
-
+  
   return (
     <>
       {/* Bradscrems */}
@@ -82,16 +73,24 @@ const MembersList = () => {
           {ProjectName}{" "}
         </p>
         &gt;
-        <p className="text-[#2f1380] ml-2 "> Members List</p>
+        <p className="text-[#2f1380] ml-2 "> Task List</p>
       </div>
 
-      {/* matrix */}
+       {/* Chart section */}
+       <div className="container mx-auto">
+        <div className="flex flex-col md:flex-row">
+          <div className="flex-1 p-2 mx-auto">
+            <TaskStatusChart isDrillDown />
+          </div>
+          
+        </div>
+      </div>
 
-      {/* Heder Sections */}
-      <div className="p-2 flex flex-col md:flex-row justify-between items-center max-w-[1280px] mx-auto">
+      {/* header section */}
+       <div className="p-2 flex flex-col md:flex-row justify-between items-center max-w-[1280px] mx-auto">
         <div className="flex items-center mb-4 md:mb-0">
           <h1 className="text-md font-semibold mr-4 text-[#2f1380]">
-            Members (10)
+            Task
           </h1>
           {/* <input
             value={searchString}
@@ -104,7 +103,7 @@ const MembersList = () => {
         <div className="flex items-center">
           <button
             className="text-[#ffffff] bg-[#2f1380] px-4 py-1 rounded mr-4 flex"
-            onClick={OnClickOnAddOfMember}
+            onClick={OnClickOnAddOfTask}
           >
             <span className="mr-2">
               <PlusIcon />
@@ -114,7 +113,7 @@ const MembersList = () => {
         </div>
       </div>
 
-      {/* grid section */}
+      {/* List DATA SECTION */}
       <div className="flex items-center justify-center">
         <div className="w-full p-4">
           <div
@@ -123,7 +122,7 @@ const MembersList = () => {
           >
             {" "}
             <AgGridReact
-              rowData={memeberData}
+              rowData={TaskData}
               columnDefs={columnDefs}
               defaultColDef={{
                 sortable: true,
@@ -137,8 +136,9 @@ const MembersList = () => {
           </div>
         </div>
       </div>
+
     </>
   );
 };
 
-export default MembersList;
+export default ProgessList;

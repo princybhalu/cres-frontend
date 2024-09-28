@@ -1,11 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getOneProjectData } from "../../services/projectService";
+import {
+  getOneProjectData,
+  getProgessOfProject,
+} from "../../services/projectService";
 import LoaderIcon from "../../shared/icons/loader-icon";
 import { ProjectRedux } from "../../store/projectsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { addProject, removeProject, selectProjects } from '../../store/projectsSlice';
+import {
+  addProject,
+  removeProject,
+  selectProjects,
+} from "../../store/projectsSlice";
+import { RootState } from "../../store";
+import SiteStatusDashboardOfProgress from "../../shared/SiteStatusDashboardOfProgress";
+import SiteStatusDashboard from "../../shared/SiteStatusDashboardOfProgress";
+import DateRangePickerComp from "../../shared/datePicker";
+import DisplayCards from "../../shared/Progress/displayCards";
 
+// {
+//   "id": "33bea34f-0e14-4067-bdec-2643af1febe4",
+//   "project_id": "4e6f1d28-3af4-467a-9e69-f970a64f1c0d",
+//   "user_id": "49bb97b5-8fe5-48c4-9061-3805eaedb31c",
+//   "task_id": null,
+//   "title": "aaa",
+//   "description": "aa",
+//   "status": "pending",
+//   "media": [
+//       "http://res.cloudinary.com/dqh3wljk0/image/upload/v1727531940/Screenshot_from_2024-09-22_11-33-50_zu1prr.png"
+//   ],
+//   "created_by": "49bb97b5-8fe5-48c4-9061-3805eaedb31c",
+//   "created_at": "2024-09-28 13:59:00.830379",
+//   "modified_by": null,
+//   "modified_at": null,
+//   "deleted_by": null,
+//   "deleted_at": null,
+//   "progress_percentage": 0,
+//   "comments": {},
+//   "due_date": null
+// }
+// title , description , status , media[0] , progress_percentage due_date
 
 interface ProjectDataInter {
   id: string;
@@ -26,10 +60,14 @@ interface ProjectDataInter {
 const GetProjectOverview = () => {
   const dispatch = useDispatch();
   const projects = useSelector(selectProjects);
+  const user = useSelector((state: RootState) => state.user.user);
   const [isLoading, setIsLoading] = useState(true);
   const [projectData, setProjectData] = useState<ProjectDataInter | null>(null);
   const { projectId } = useParams();
   const navigation = useNavigate();
+  const [isOpenDatepicker, setIsOpenDatePicker] = useState(false);
+
+  const [ProgessData, setProgessData] = useState(null);
 
   const getDataOfProject = async () => {
     try {
@@ -37,7 +75,11 @@ const GetProjectOverview = () => {
         const { data: project } = await getOneProjectData(projectId);
         console.log(project);
         setProjectData(project);
-        const newProject: ProjectRedux = { id: projectId, name: project.name, location: project.location };
+        const newProject: ProjectRedux = {
+          id: projectId,
+          name: project.name,
+          location: project.location,
+        };
         dispatch(addProject(newProject));
       }
     } catch (err) {
@@ -47,13 +89,39 @@ const GetProjectOverview = () => {
     }
   };
 
-  const goTo = (path : string) => {
+  const goTo = (path: string) => {
     navigation(path);
-  }
+  };
 
   useEffect(() => {
-    getDataOfProject().then();
+    if (user && user.role === "officer") getDataOfProject().then();
+    if (user && user.role === "contractor") getDataOfProgessList().then();
   }, []);
+
+  const getDataOfProgessList = async () => {
+    try {
+      if (projectId) {
+        const { data } = await getProgessOfProject(projectId);
+        console.log("memeberDetails : ", data);
+
+        setProgessData(data);
+      }
+    } catch (err) {
+      console.log("err : ", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    console.log(ProgessData);
+    console.log("isLoading : " , isLoading);
+    
+    
+    return () => {
+      
+    };
+  }, [ProgessData]);
 
   return (
     <>
@@ -63,43 +131,122 @@ const GetProjectOverview = () => {
           <LoaderIcon />{" "}
         </>
       )}
-      {!isLoading && projectData && (
-        <>
-          <div className="mx-auto mt-4 max-w-5xl">
-            <h1 className="text-lg">Project Overview</h1>
-            {/* General Info */}
-            <div className="border border-gray-400 bg-[#F6F8FB] p-4">
-              <p className="text-lg font-bold">General Deatils</p>
-              <div className="flex justify-between my-auto my-2">
-                <p> Name : {projectData.name} </p>
-                <p> Loaction : {projectData.location ?? "--"}</p>
-              </div>
-              <div className="flex my-auto my-2">
-                Description : {projectData.description}
-              </div>
-              <div className="flex my-auto my-2"></div>
+      {!isLoading &&
+        user &&
+        //@ts-ignore
+        user.role === "officer" &&
+        projectData && (
+          <>
+            <div className="mx-auto mt-4 max-w-5xl">
+              <h1 className="text-[2rem] text">Project Overview</h1>
+              {/* General Info */}
+              <div className="border border-gray-400 bg-[#F6F8FB] p-4">
+                <p className="text-lg font-bold">General Deatils</p>
+                <div className="flex justify-between my-auto my-2">
+                  <p> Name : {projectData.name} </p>
+                  <p> Loaction : {projectData.location ?? "--"}</p>
+                </div>
+                <div className="flex my-auto my-2">
+                  Description : {projectData.description}
+                </div>
+                <div className="flex my-auto my-2"></div>
 
-              <div className="flex my-auto my-2">
-                Progress Percentage : {projectData.progress_percentage} %
+                <div className="flex my-auto my-2">
+                  Progress Percentage : {projectData.progress_percentage} %
+                </div>
+              </div>
+
+              {/* Mertic */}
+              <div className="mt-3 h-64">
+                <h1>Chart here</h1>
+              </div>
+
+              {/* navigation options */}
+              <div className="mt-2">
+                <p className="text-md"> Suggestions </p>
+                <CardNavigation
+                  //@ts-ignore
+                  projectId={projectId}
+                  goTo={goTo}
+                />
               </div>
             </div>
+          </>
+        )}
 
-            {/* Mertic */}
-            <div className="mt-3 h-64">
-              <h1>Chart here</h1>
-            </div>
+      {!isLoading &&
+        user &&
+        //@ts-ignore
+        user.role === "contractor" &&
+        ProgessData && (
+          <>
+            <div className="m-4">
+              <div className="flex justify-end">
+                <button
+                  className="bg-[var(--navbar-bg)] text-[var(--navbar-text)] rounded mr-24 p-2 "
+                  onClick={() =>
+                    navigation("/project/" + projectId + "/progress/add")
+                  }
+                >
+                  Add Progress
+                </button>
+              </div>
 
-            {/* navigation options */}
-            <div className="mt-2">
-              <p className="text-md"> Suggestions </p>
-              <CardNavigation 
-              //@ts-ignore
-              projectId={projectId} 
-              goTo={goTo}/>
+              <div className="container mx-auto">
+                <div className="flex flex-col md:flex-row">
+                  <div className="flex-1 mx-auto">
+                    <SiteStatusDashboard
+                      //@ts-ignore
+                      title={"Task Status"}
+                    />
+                  </div>
+                  <div className="flex-1 mx-auto">
+                    <SiteStatusDashboardOfProgress
+                      //@ts-ignore
+                      title={"Progress Status"}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="container mx-auto">
+                <div className="flex ml-30">
+                  <div className="ml-12">
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      className="p-1 rounded border w-full border-gray-300 focus:border-[var(--navbar-bg)] focus:outline-none w-full "
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <button
+                      onClick={() => setIsOpenDatePicker((prv) => !prv)}
+                      className="bg-[var(--navbar-bg)] text-[var(--navbar-text)]  p-2 ml-2 "
+                    >
+                      Select Date Range
+                    </button>
+                    {isOpenDatepicker && <DateRangePickerComp />}
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap justify-center">
+                  {ProgessData &&
+                    //@ts-ignore
+                    ProgessData?.length !== 0 &&
+                    //@ts-ignore
+                    ProgessData.map((_progress) => (
+                      <>
+                        <div className="p-4">
+                          <DisplayCards task={_progress} />
+                        </div>
+                      </>
+                    ))}
+                </div>
+              </div>
             </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
     </>
   );
 };
@@ -176,8 +323,13 @@ interface NavigationItem {
   color: string;
 }
 
-const CardNavigation = ({projectId , goTo } : {projectId : string , goTo : (path :string) => void}) => {
-
+const CardNavigation = ({
+  projectId,
+  goTo,
+}: {
+  projectId: string;
+  goTo: (path: string) => void;
+}) => {
   const items: NavigationItem[] = [
     {
       key: "/projects/resources",
@@ -188,10 +340,10 @@ const CardNavigation = ({projectId , goTo } : {projectId : string , goTo : (path
       color: "bg-green-500",
     },
     {
-      key: `/projects/${projectId}/progess`,
-      label: "Progess",
+      key: `/projects/${projectId}/progress`,
+      label: "Progress",
       position: "leftbar",
-      onClick: () => goTo(`/project/${projectId}/progess`),
+      onClick: () => goTo(`/project/${projectId}/progress`),
       icon: <ChatAlt2Icon />,
       color: "bg-blue-500",
     },

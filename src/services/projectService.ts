@@ -35,3 +35,56 @@ export const getMembersOfProject = (projectId : string) =>  {
     messageSettings: { hideSuccessMessage: true },
   });
 }
+
+
+//progrss
+export const getProgessOfProject = (projectId : string) =>  {
+  return  http.get({
+    url: '/progress',
+    config: {
+      headers: {
+        'x-project-id': projectId,
+      },
+    },
+    messageSettings: { hideSuccessMessage: true },
+  });
+}
+
+export const addProgessOfProject = (body : any , projectId : string) =>  {
+  return  http.post({
+    url: '/progress',
+    data: body,
+    config: {
+      headers: {
+        'x-project-id': projectId,
+      },
+    },
+  });
+}
+
+
+
+//task
+export const getTaskOfProject = (projectId : string) =>  {
+  return  http.get({
+    url: '/task',
+    config: {
+      headers: {
+        'x-project-id': projectId,
+      },
+    },
+    messageSettings: { hideSuccessMessage: true },
+  });
+}
+
+export const addTaskOfProject = (body : any , projectId : string) =>  {
+  return  http.post({
+    url: '/task',
+    data: body,
+    config: {
+      headers: {
+        'x-project-id': projectId,
+      },
+    },
+  });
+}

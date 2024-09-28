@@ -17,8 +17,14 @@ const Login: React.FC = () => {
     const resultAction = await dispatch(
       loginUser({ email, password })
     );
+    console.log("resultAction : " , resultAction);
+    
     if (loginUser.fulfilled.match(resultAction)) {
-      navigate("/");
+      // if(resultAction.payload.role === "officer") navigate("/");
+      // else if(resultAction.payload.role === "contractor") navigate("/noramalUser");
+      // else {
+        navigate("/");
+      // }
     }
   };
 

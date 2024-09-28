@@ -2,6 +2,8 @@ import React, { ReactNode, useState } from "react";
 import Navbar from "../Navbar";
 import LeftsideBar from "../LeftsideBar";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface LayoutProps {
   children: ReactNode; // This defines the type for children
@@ -10,6 +12,8 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentScreen, setCurrentScreen] = useState("dashboard");
+  const user = useSelector((state: RootState) => state.user.user);
+  console.log(user);
 
   const navigation = useNavigate();
 
@@ -24,7 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <style>
         {`
         :root {
-          --navbar-bg: #2f1380;
+          --navbar-bg: #446ca5;
           --navbar-text: #ffffff;
           --sidebar-hover: rgba(255, 255, 255, 0.1);
           --sidebar-active: rgba(255, 255, 255, 0.2);
@@ -39,12 +43,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       {/* Content area */}
       <div className="flex flex-1 overflow-hidden">
-        <LeftsideBar
-          currentScreen={currentScreen}
-          handleNavigation={handleNavigation}
-          isMobileMenuOpen={isMobileMenuOpen}
-          IsIsMobileMenuOpenFun={setIsMobileMenuOpen}
-        />
+        {user &&
+          //@ts-ignore
+          user.role !== "contractor" && (
+            <>
+              <LeftsideBar
+                currentScreen={currentScreen}
+                handleNavigation={handleNavigation}
+                isMobileMenuOpen={isMobileMenuOpen}
+                IsIsMobileMenuOpenFun={setIsMobileMenuOpen}
+              />
+            </>
+          )}
 
         {/* Main content */}
         <main className="flex-1 overflow-auto">{children}</main>

@@ -1,8 +1,8 @@
 import { addDays } from "date-fns";
 import { useState } from "react";
-import { DateRangePicker } from 'react-date-range';
-import 'react-date-range/dist/styles.css'; 
-import 'react-date-range/dist/theme/default.css';
+import { DateRangePicker } from "react-date-range";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 
 const DateRangePickerComp = () => {
   const [state, setState] = useState([
@@ -12,13 +12,19 @@ const DateRangePickerComp = () => {
       key: "selection",
     },
   ]);
+
   return (
     <>
       <DateRangePicker
+        onChange={(item) => {
+          //@ts-ignore
+          setState([item.selection]);
+
+          console.log(item);
+          
+        }}
         //@ts-ignore
-        onChange={(item) => setState([item.selection])}
-        //@ts-ignore
-        showSelectionPreview={true}
+        showSelectionPreview={false}
         moveRangeOnFirstSelection={false}
         months={1}
         ranges={state}

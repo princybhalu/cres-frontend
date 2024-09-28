@@ -33,25 +33,25 @@ export const TaskStatusChart = ({ isDrillDown = false }) => {
               name: "Not Submitted",
               value: 20,
               selected: true,
-              color: "color1" // replace "color1" with your desired color
+              color: "#084E8F" // replace "color1" with your desired color
             },
             {
               name: "Pending for Reviews",
               value: 10,
               selected: true,
-              color: "color2" // replace "color2" with your desired color
+              color: "#E03D34" // replace "color2" with your desired color
             },
             {
               name: "Approved",
               value: 20,
               selected: true,
-              color: "color3" // replace "color3" with your desired color
+              color: "#62B57D" // replace "color3" with your desired color
             },
             {
               name: "Declined",
               value: 20,
               selected: true,
-              color: "color4" // replace "color4" with your desired color
+              color: "#E4E4E4" // replace "color4" with your desired color
             }
           ];
           
@@ -85,7 +85,6 @@ export const TaskStatusChart = ({ isDrillDown = false }) => {
                 },
               ]}
               isNoDataFound={!seriesData.length}
-              title={{text : "Task Status"}}
             />
           )}</> : (
             <LoaderIcon />
