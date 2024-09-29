@@ -8,7 +8,7 @@ import { addProjectApiCall } from "../../services/projectService";
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
   description: yup.string().required("Description is required"),
-  location: yup.string().required("Location is required"),
+  location: yup.string(),
   picture: yup.mixed().required("A picture is required"), // Max 2MB
 });
 
@@ -81,18 +81,18 @@ const AddProject = () => {
     <>
       {/* Bradscrems */}
       <div className="w-full p-4 flex text-lg">
-        <p className="text-[#2f1380] mr-2" onClick={() => navigate("/")}>
+        <p className="text-[var(--navbar-bg)] mr-2" onClick={() => navigate("/")}>
           {" "}
           Projects{" "}
         </p>{" "}
         &gt;
-        <p className="text-[#2f1380] ml-2 "> Add </p>
+        <p className="text-[var(--navbar-bg)] ml-2 "> Add </p>
       </div>
       {/* Add Form */}
       <div className="bg-gray-100 p-2 h-screen">
         <div className=" mx-auto mt-4 max-w-5xl">
-          <h2 className="font-bold text-2xl m-2">Add Project</h2>
-
+          <h2 className=" text-[var(--navbar-bg)] text-2xl m-2">Add General Details</h2>
+ 
           <div className="h-full bg-white w-full border border-gray-200 p-4">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>

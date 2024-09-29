@@ -32,7 +32,7 @@ console.log("dis");
         <h2 className="text-xl font-semibold mb-2">{task.title}</h2>
         <p className="text-gray-700 mb-2">{task.description}</p>
         <p className="text-sm text-gray-500 mb-2">Status: {task.status}</p>
-        <p className="text-sm text-gray-500 mb-2">Progress: {task.progress_percentage}%</p>
+        {/* <p className="text-sm text-gray-500 mb-2">Progress: {task.progress_percentage}%</p> */}
         <p className="text-sm text-gray-500">
           Due Date: {task.due_date ? task.due_date : 'Not specified'}
         </p>

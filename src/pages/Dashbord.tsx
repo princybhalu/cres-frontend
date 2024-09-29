@@ -4,6 +4,7 @@ import { RootState } from "../store";
 import TaskList from "../shared/Project/listPage";
 import { TaskStatusChart } from "../shared/charts/taskStatusChart";
 import DateRangePickerComp from "../shared/datePicker";
+import UserRoleBarChart from "../shared/charts/barchart";
 // import DateRangePicker from "../shared/datePicker";
 
 const Dashboard: React.FC = () => {
@@ -37,15 +38,44 @@ const Dashboard: React.FC = () => {
                   <TaskStatusChart isDrillDown />
                 </div>
               </div>
-              <div className="flex-1 flex p-1 mx-auto items-center">
-                <div className="mx-auto">
-                  <img src="petrol-pump.png" className="w-40 h-32" />
-                  <p className="text-lg font-bold text-center">Total Site 20</p>
+              <div className="flex-1 p-1">
+                <div className="mx-auto h-full">
+                  <div className="w-full max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div className="p-1 border-b bg-[var(--navbar-bg)] w-full">
+                      <p className="text-xl text-center font-semibold text-white">
+                        User By Role
+                      </p>
+                    </div>
+                    <div className="mx-auto items-center flex w-full">
+                        {/* <img
+                          src="contractor-builder-11-svgrepo-com.svg"
+                          className="w-full h-auto" 
+                          style={{height: "300px"}}
+                        /> */}
+                        <UserRoleBarChart  />
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="flex-1 p-1 mx-auto mb-3 m-4">
+              <div className="flex-1 p-1 mx-auto">
                 {/* <TaskStatusChart isDrillDown /> */}
-                <NotificationCard title="Notifications" messages={messages} />
+                {/* <NotificationCard title="Notifications" messages={messages} /> */}
+                <div className="mx-auto h-full">
+                  <div className="w-full max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div className="p-1 border-b bg-[var(--navbar-bg)] w-full">
+                      <p className="text-xl text-center font-semibold text-white">
+                       Total Sites 100x
+                      </p>
+                    </div>
+                    <div className="mx-auto items-center flex w-full">
+                        <img
+                          src="location.jpg"
+                          className="w-full h-auto" 
+                          style={{height: "300px"}}
+                        />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

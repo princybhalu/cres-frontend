@@ -74,7 +74,7 @@ const SiteStatusDashboard: React.FC<{ title: string }> = ({
               </svg>
             }
             label="Total Progress"
-            value={784}
+            value={20}
             color="bg-blue-300"
           />
           <StatusItem
@@ -95,9 +95,9 @@ const SiteStatusDashboard: React.FC<{ title: string }> = ({
               </svg>
             }
             label="Approve"
-            value={728}
+            value={10}
             color="bg-green-300"
-            percentage={93}
+            percentage={50 }
           />
           <StatusItem
             icon={
@@ -117,9 +117,9 @@ const SiteStatusDashboard: React.FC<{ title: string }> = ({
               </svg>
             }
             label="Pending"
-            value={32}
+            value={4}
             color="bg-gray-300"
-            percentage={4}
+            percentage={25}
           />
           <StatusItem
             icon={
@@ -139,9 +139,9 @@ const SiteStatusDashboard: React.FC<{ title: string }> = ({
               </svg>
             }
             label="Rejected"
-            value={22}
+            value={6}
             color="bg-red-300"
-            percentage={3}
+            percentage={25}
           />
         </div>
       </div>

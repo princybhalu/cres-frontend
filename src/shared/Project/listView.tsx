@@ -11,12 +11,6 @@ const ProjectListView: React.FC = ({ ProjectData }: any) => {
     { field: "name", filter: true, name: "Name" },
     { field: "description" },
     { field: "location", filter: true },
-    { field: "newCommentCount" },
-    { field: "role" },
-    { field: "pendingTaskCount" },
-    { field: "pendingProgressCount" },
-    { field: "remainingProgessToComplete" },
-    { field: "progress_percentage" },
   ];
 
   return (
@@ -34,6 +28,7 @@ const ProjectListView: React.FC = ({ ProjectData }: any) => {
               sortable: true,
               filter: true,
               resizable: true,
+              flex: 1
             }}
             // pagination={true}
             // paginationPageSize={5}

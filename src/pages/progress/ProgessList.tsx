@@ -35,7 +35,7 @@ const ProgessList = () => {
   const projects = useSelector(selectProjects);
   const ProjectName = projects.find(({ id }) => id === projectId)?.name;
 
-  const [ProgessData , setProgessData] = useState(null);
+  const [ProgessData, setProgessData] = useState(null);
 
   const OnClickOnAddOfProgess = () => {
     navigate("/project/" + projectId + "/progress/add");
@@ -43,10 +43,68 @@ const ProgessList = () => {
 
   const columnDefs = [
     { field: "title", filter: true, name: "title" },
-    {field: "description"},
+    { field: "description" },
     { field: "status" },
     { field: "due_date" },
-    { field: "progress_percentage" },
+    { field: "user_name", headerName: "User", valueGetter: () => {
+      return "jeen";
+    } },
+    {
+      headerName: "",filter: false,
+      cellRenderer: (params: any) => {
+        return (
+          <div>
+            <button className="rounded-full bg-green-500 p-1 m-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6 text-white"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m4.5 12.75 6 6 9-13.5"
+                />
+              </svg>
+            </button>
+            <button className="rounded-full bg-red-500 p-1 m-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="size-6 text-white"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+            <button className="rounded-full p-1 m-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6 text-red-800" 
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                />
+              </svg>
+            </button>
+          </div>
+        );
+      },
+    },
+    // { field: "progress_percentage" },
   ];
 
   const getDataOfProgessList = async () => {
@@ -67,29 +125,32 @@ const ProgessList = () => {
     getDataOfProgessList().then();
     return () => {};
   }, []);
-  
+
   return (
     <>
       {/* Bradscrems */}
       <div className="w-full p-4 flex text-lg">
-        <p className="text-[#2f1380] mr-2" onClick={() => navigate("/")}>
+        <p
+          className="text-[var(--navbar-bg)] mr-2"
+          onClick={() => navigate("/")}
+        >
           {" "}
           Projects{" "}
         </p>{" "}
         &gt;
         <p
-          className="text-[#2f1380] ml-2 mr-2 "
+          className="text-[var(--navbar-bg)] ml-2 mr-2 "
           onClick={() => navigate("/project/" + projectId)}
         >
           {" "}
           {ProjectName}{" "}
         </p>
         &gt;
-        <p className="text-[#2f1380] ml-2 "> Progess List</p>
+        <p className="text-[var(--navbar-bg)] ml-2 "> Progess List</p>
       </div>
 
-       {/* Chart section */}
-       <div className="container mx-auto">
+      {/* Chart section */}
+      {/* <div className="container mx-auto">
         <div className="flex flex-col md:flex-row">
           <div className="flex-1 p-2 mx-auto">
             <TaskStatusChart isDrillDown />
@@ -101,25 +162,22 @@ const ProgessList = () => {
             <TaskStatusChart isDrillDown />
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* header section */}
-       <div className="p-2 flex flex-col md:flex-row justify-between items-center max-w-[1280px] mx-auto">
+      <div className="p-2 flex flex-col md:flex-row justify-between items-center max-w-[1280px] mx-auto">
         <div className="flex items-center mb-4 md:mb-0">
-          <h1 className="text-md font-semibold mr-4 text-[#2f1380]">
-            Progess
-          </h1>
-          {/* <input
-            value={searchString}
+          <input
+            // value={searchString}
             type="text"
             placeholder="Search"
-            className="p-1 rounded border border-gray-300 focus:border-[var(--navbar-bg)] focus:outline-none w-full sm:w-1/2"
-            onChange={handleSearchInput}
-          /> */}
+            className="p-1 rounded border border-gray-300 focus:border-[var(--navbar-bg)] focus:outline-none w-full"
+            // onChange={handleSearchInput}
+          />
         </div>
         <div className="flex items-center">
           <button
-            className="text-[#ffffff] bg-[#2f1380] px-4 py-1 rounded mr-4 flex"
+            className="text-[#ffffff] bg-[var(--navbar-bg)] px-4 py-1 rounded mr-4 flex"
             onClick={OnClickOnAddOfProgess}
           >
             <span className="mr-2">
@@ -145,7 +203,7 @@ const ProgessList = () => {
                 sortable: true,
                 filter: true,
                 resizable: true,
-                flex:1
+                flex: 1,
               }}
               // pagination={true}
               // paginationPageSize={5}
@@ -153,7 +211,6 @@ const ProgessList = () => {
           </div>
         </div>
       </div>
-
     </>
   );
 };

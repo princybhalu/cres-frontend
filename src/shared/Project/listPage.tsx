@@ -10,6 +10,8 @@ import { getProjectListForDashboard } from "../../services/projectService";
 import ProjectList from "./gridCards";
 import ProjectListView from "./listView";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 const ListPage = () => {
   const [CurrentView, setCurrentView] = useState(PROJECTS_LIST_VIEWS.GRID);
@@ -22,7 +24,7 @@ const ListPage = () => {
   });
   const [ProjectDetails, setProjectDetails] = useState(null);
   const navigate = useNavigate();
-
+  const user = useSelector((state: RootState) => state.user.user);
 
   /**
    * @method handleSearchInput
@@ -66,8 +68,8 @@ const ListPage = () => {
       const { data: ProjectDetails } = await getProjectListForDashboard(
         currentlyAppliedFilter
       );
-      console.log("ProjectDetails : " , ProjectDetails);
-      
+      console.log("ProjectDetails : ", ProjectDetails);
+
       setProjectDetails(ProjectDetails);
     } catch (err) {
       console.log("error in geting project list");
@@ -85,7 +87,7 @@ const ListPage = () => {
       {/* Header Of Project SEction */}
       <div className="p-2 flex flex-col md:flex-row justify-between items-center max-w-[1280px] mx-auto">
         <div className="flex items-center mb-4 md:mb-0">
-          <h1 className="text-md font-semibold mr-4 text-[#2f1380]">
+          <h1 className="text-md font-semibold mr-4 text-[#446ca5]">
             Projects (10)
           </h1>
           {/* moxfive serch theme */}
@@ -109,20 +111,25 @@ const ListPage = () => {
             value={searchString}
             type="text"
             placeholder="Search"
-            className="p-1 rounded border border-gray-300 focus:border-[var(--navbar-bg)] focus:outline-none w-full sm:w-1/2"
+            className="p-1 my-auto    rounded border border-gray-300 focus:border-[var(--navbar-bg)] focus:outline-none w-full sm:w-1/2"
             onChange={handleSearchInput}
           />
         </div>
         <div className="flex items-center">
-          <button
-            className="text-[#ffffff] bg-[#2f1380] px-4 py-1 rounded mr-4 flex"
-            onClick={OnClickOnAddOfProject}
-          >
-            <span className="mr-2">
-              <PlusIcon />
-            </span>
-            Add
-          </button>
+          {user && user.role !== "contractor" && (
+            <>
+              <button
+                className="text-[#ffffff] bg-[#446ca5] px-4 py-1 rounded mr-4 flex"
+                onClick={OnClickOnAddOfProject}
+              >
+                <span className="mr-2">
+                  <PlusIcon />
+                </span>
+                Add
+              </button>
+            </>
+          )}
+
           <div className="flex rounded border border-gray-300">
             <button
               className={`bg-gray-200 px-2 py-1 rounded ${CurrentView === PROJECTS_LIST_VIEWS.GRID ? "bg-white" : ""}  `}

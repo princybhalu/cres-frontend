@@ -17,6 +17,7 @@ import SiteStatusDashboardOfProgress from "../../shared/SiteStatusDashboardOfPro
 import SiteStatusDashboard from "../../shared/SiteStatusDashboardOfProgress";
 import DateRangePickerComp from "../../shared/datePicker";
 import DisplayCards from "../../shared/Progress/displayCards";
+import StatusDashboard from "../../shared/new"
 
 // {
 //   "id": "33bea34f-0e14-4067-bdec-2643af1febe4",
@@ -115,12 +116,9 @@ const GetProjectOverview = () => {
 
   useEffect(() => {
     console.log(ProgessData);
-    console.log("isLoading : " , isLoading);
-    
-    
-    return () => {
-      
-    };
+    console.log("isLoading : ", isLoading);
+
+    return () => {};
   }, [ProgessData]);
 
   return (
@@ -138,27 +136,73 @@ const GetProjectOverview = () => {
         projectData && (
           <>
             <div className="mx-auto mt-4 max-w-5xl">
-              <h1 className="text-[2rem] text">Project Overview</h1>
+              {/* <h1 className="text-lg text">Project Overview</h1> */}
               {/* General Info */}
-              <div className="border border-gray-400 bg-[#F6F8FB] p-4">
-                <p className="text-lg font-bold">General Deatils</p>
-                <div className="flex justify-between my-auto my-2">
-                  <p> Name : {projectData.name} </p>
-                  <p> Loaction : {projectData.location ?? "--"}</p>
+              <div className="border border-gray-300 bg-white rounded-lg shadow-md p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <p className="text-xl font-semibold">General Details</p>
+                  <button
+                    onClick={() => navigation("/")}
+                    aria-label="Navigate to Home"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6 text-gray-700 hover:text-gray-900 transition duration-200"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                      />
+                    </svg>
+                  </button>
                 </div>
-                <div className="flex my-auto my-2">
-                  Description : {projectData.description}
+                <div className="flex flex-col sm:flex-row justify-between my-2">
+                  <p className="text-gray-700">
+                    Name:{" "}
+                    <span className="font-medium">{projectData.name}</span>
+                  </p>
+                  <p className="text-gray-700 mt-2 sm:mt-0">
+                    Location:{" "}
+                    <span className="font-medium">
+                      {projectData.location ?? "--"}
+                    </span>
+                  </p>
                 </div>
-                <div className="flex my-auto my-2"></div>
-
-                <div className="flex my-auto my-2">
-                  Progress Percentage : {projectData.progress_percentage} %
+                <div className="my-2">
+                  <p className="text-gray-700">
+                    Description:{" "}
+                    <span className="font-medium">
+                      {projectData.description}
+                    </span>
+                  </p>
                 </div>
+                {/* <div className="my-2">
+                  <p className="text-gray-700">
+                    Progress Percentage:{" "}
+                    <span className="font-medium">
+                      {projectData.progress_percentage} %
+                    </span>
+                  </p>
+                </div> */}
               </div>
-
               {/* Mertic */}
-              <div className="mt-3 h-64">
-                <h1>Chart here</h1>
+              <div className="container mx-auto">
+                <div className="flex flex-col md:flex-row">
+                  <div className="flex-1 mx-auto">
+                    <SiteStatusDashboard
+                      //@ts-ignore
+                      title={"Task Status"}
+                    />
+                  </div>
+                  <div className="flex-1 mx-auto">
+                    <StatusDashboard title={""} />
+                  </div>
+                </div>
               </div>
 
               {/* navigation options */}
@@ -333,7 +377,7 @@ const CardNavigation = ({
   const items: NavigationItem[] = [
     {
       key: "/projects/resources",
-      label: "Resources",
+      label: "Documents",
       position: "leftbar",
       onClick: () => goTo(`/project/${projectId}/resources`),
       icon: <DocumentTextIcon />,
@@ -380,3 +424,64 @@ const CardNavigation = ({
     </div>
   );
 };
+
+const StatusBoxes: React.FC = () => {
+  return (
+    <div className="flex justify-around max-w-4xl mx-auto p-4 bg-white rounded-lg shadow-lg">
+      <div className="flex-1 m-2 p-6 text-white bg-[#446ca5] rounded-lg text-center">
+        <h3 className="text-lg font-normal">New</h3>
+        <p className="text-3xl font-bold">15</p>
+      </div>
+      <div className="flex-1 m-2 p-6 text-white bg-[#f39c12] rounded-lg text-center">
+        <h3 className="text-lg font-normal">Pending for Approval</h3>
+        <p className="text-3xl font-bold">3</p>
+      </div>
+      <div className="flex-1 m-2 p-6 text-white bg-[#27ae60] rounded-lg text-center">
+        <h3 className="text-lg font-normal">Approved</h3>
+        <p className="text-3xl font-bold">0</p>
+      </div>
+      <div className="flex-1 m-2 p-6 text-white bg-[#b7950b] rounded-lg text-center">
+        <h3 className="text-lg font-normal">Applied</h3>
+        <p className="text-3xl font-bold">0</p>
+      </div>
+      <div className="flex-1 m-2 p-6 text-white bg-[#e74c3c] rounded-lg text-center">
+        <h3 className="text-lg font-normal">Closed</h3>
+        <p className="text-3xl font-bold">0</p>
+      </div>
+      <div className="flex-1 m-2 p-6 text-white bg-[#8e3b47] rounded-lg text-center">
+        <h3 className="text-lg font-normal">Rejected</h3>
+        <p className="text-3xl font-bold">12</p>
+      </div>
+    </div>
+  );
+};
+
+
+// const StatusDashboard: React.FC = () => {
+//   const statuses = [
+//     { title: 'New', count: 15, color: '#446ca5' },
+//     { title: 'Pending for Approval', count: 3, color: '#f39c12' },
+//     { title: 'Approved', count: 0, color: '#27ae60' },
+//     { title: 'Applied', count: 0, color: '#b7950b' },
+//     { title: 'Closed', count: 0, color: '#e74c3c' },
+//     { title: 'Rejected', count: 12, color: '#8e3b47' },
+//   ];
+
+//   return (
+//     <div className="min-w-[320px] max-w-4xl mx-auto p-4">
+//       <div className="flex flex-wrap justify-around bg-white rounded-lg shadow-lg p-4">
+//         {statuses.map((status, index) => (
+//           <div key={index} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/6 p-2">
+//             <div 
+//               className="text-white rounded-lg text-center p-4" 
+//               style={{ backgroundColor: status.color }}
+//             >
+//               <h3 className="text-lg font-normal">{status.title}</h3>
+//               <p className="text-3xl font-bold">{status.count}</p>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };

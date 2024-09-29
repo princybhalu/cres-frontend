@@ -21,7 +21,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     setCurrentScreen(screen);
     setIsMobileMenuOpen(false);
     navigation(path);
-  };
+  }; 
 
   return (
     <div className="flex flex-col h-screen">

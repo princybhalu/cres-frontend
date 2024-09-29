@@ -19,7 +19,7 @@ const ProjectCard: React.FC<{
     >
       {/* Fixed width of cards */}
       {index === 0 && (
-        <div className="bg-green-200 text-green-800 rounded p-2 mb-2 text-sm">
+        <div className="bg-red-400 text-white rounded p-2 mb-2 font-semibold text-md">
           {project.newCommentCount ?? 9} Notifiction
         </div>
       )}
