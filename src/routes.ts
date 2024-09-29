@@ -10,6 +10,7 @@ import AddMember from './pages/members/addMember';
 import MembersList from './pages/members/membersList';
 import NormalUserDashBoard from './pages/normalUserDashBoard';
 import AddProgess from './pages/progress/AddProgess';
+import ViewProgress from './pages/progress/AddProgess copy';
 import ProgessList from './pages/progress/ProgessList';
 import TaskList from './pages/task/TaskList';
 import AddTask from './pages/task/addTask';
@@ -26,6 +27,7 @@ export const routes: RouteConfig[] = [
 
   { path: '/project/:projectId/progress', component: ProgessList, protected: true, layout: true },
   { path: '/project/:projectId/progress/add', component: AddProgess, protected: true, layout: true },
+  { path: '/project/:projectId/view', component: ViewProgress, protected: true, layout: true },
 
   { path: '/addProgress/', component: AddDirectProgess, protected: true, layout: true },
 

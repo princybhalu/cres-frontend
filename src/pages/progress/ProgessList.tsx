@@ -147,6 +147,7 @@ const ProgessList = () => {
                 resizable: true,
                 flex:1
               }}
+              onRowClicked={() => navigate("/project/" + projectId + "/view")}
               // pagination={true}
               // paginationPageSize={5}
             />
