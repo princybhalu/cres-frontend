@@ -13,3 +13,18 @@ export const updatePermissionOfUserForProject = (body : any , projectId : string
       }
     })
   }
+
+  
+
+
+export const getDataOfProgress = (id :string , projectId : any) => {
+    
+  return http.get({
+    url: "/progress",
+    config: {
+      headers:{
+        "x-project-id" : projectId,
+      }
+    }
+  })
+}

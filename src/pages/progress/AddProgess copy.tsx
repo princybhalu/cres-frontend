@@ -37,13 +37,14 @@
 
 // export default AddProgess;
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import "./addProgress.css";
 import { addProgessOfProject } from "../../services/projectService";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
+import { getDataOfProgress } from "../../services/progessService";
 
 interface FormData {
   title: string;
@@ -55,7 +56,7 @@ interface FormData {
 
 const ViewProgress: React.FC = () => {
   const navigate = useNavigate();
-  const { projectId } = useParams();
+  const { projectId , id } = useParams();
   const [file, fileChange] = useState();
   const user = useSelector((state: RootState) => state.user.user);
   const {
@@ -64,6 +65,23 @@ const ViewProgress: React.FC = () => {
     register,
     formState: { errors },
   } = useForm<FormData>();
+
+  const [data , setData] = useState(null);
+
+  const getData = async () => {
+    try{
+      //@ts-ignore
+      let d = await getDataOfProgress(id, projectId);
+      setData(d);
+    }catch(err){
+      console.log();
+      
+    }
+  }
+
+  useEffect(() => {
+    getData().then();
+  },[])
 
   const onSubmit = async (data: FormData) => {
     console.log(data);
@@ -125,6 +143,8 @@ const ViewProgress: React.FC = () => {
               id="title"
               placeholder="Enter Title"
               {...field}
+              //@ts-ignore
+              defaultValue={data?.title && ""}
             />
           )}
         />

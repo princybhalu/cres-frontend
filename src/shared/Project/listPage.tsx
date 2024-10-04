@@ -152,7 +152,7 @@ const ListPage = () => {
         <>
           <ProjectList
             //@ts-ignore
-            ProjectData={ProjectDetails}
+            ProjectData={ProjectDetails} user={user}
           />
         </>
       )}

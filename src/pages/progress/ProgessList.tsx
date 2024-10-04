@@ -46,7 +46,9 @@ const ProgessList = () => {
     { field: "description" },
     { field: "status" },
     { field: "due_date" },
-    { field: "user_name", headerName: "User", valueGetter: () => {
+    { field: "created_by", headerName: "User", valueGetter: (params : any) => {
+      console.log(params);
+      if(params.data.created_by === "512107e3-0ee9-4f97-80e5-4b817752b89e") return "princy bhalu";
       return "jeen";
     } },
     {
@@ -204,8 +206,12 @@ const ProgessList = () => {
                 filter: true,
                 resizable: true,
                 flex: 1,
+                minWidth: 250
               }}
-              onRowClicked={() => navigate("/project/" + projectId + "/view")}
+              onRowClicked={(para) => { 
+                console.log(para);
+                //@ts-ignore
+               return navigate("/project/" + projectId + "/view/" + para.id)}}
               // pagination={true}
               // paginationPageSize={5}
             />

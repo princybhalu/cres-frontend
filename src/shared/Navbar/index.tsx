@@ -126,7 +126,7 @@ const Navbar: React.FC<NavbarProps> = ({
         {/* Central title */}
         <div className="text-center flex-grow">
           <h2 className="text-xl font-semibold text-white my-auto">
-            Centralized Retail Information System
+          Centralized Retail Engineering System
           </h2>
         </div>
 

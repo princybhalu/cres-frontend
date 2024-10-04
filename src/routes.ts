@@ -27,7 +27,7 @@ export const routes: RouteConfig[] = [
 
   { path: '/project/:projectId/progress', component: ProgessList, protected: true, layout: true },
   { path: '/project/:projectId/progress/add', component: AddProgess, protected: true, layout: true },
-  { path: '/project/:projectId/view', component: ViewProgress, protected: true, layout: true },
+  { path: '/project/:projectId/view/:id', component: ViewProgress, protected: true, layout: true },
 
   { path: '/addProgress/', component: AddDirectProgess, protected: true, layout: true },
 

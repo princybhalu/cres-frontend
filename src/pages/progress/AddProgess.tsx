@@ -179,6 +179,8 @@ const AddProgress: React.FC = () => {
         />
 
         <label htmlFor="media-upload">Media Upload</label>
+        {/*  */}
+        <input type="file" capture="user" accept="image/"/>
         <input type="file" id="media-upload" {...register("media")}  onChange={(e) => {
                 if (e.target.files) {
                   //@ts-ignore

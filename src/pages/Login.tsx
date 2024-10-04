@@ -35,7 +35,7 @@ const Login: React.FC = () => {
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
         <div className="mx-auto">
-          <img src="logo.png" className="w-64 h-64" />
+          <img src="logo.png" className="w-64 h-64 mx-auto" />
         </div>
         <div className="mb-4">
           <label

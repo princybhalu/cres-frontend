@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 
 const ProjectCard: React.FC<{
   project: ProjectForDashboard;
-  index: number;
-}> = ({ project, index }) => {
+  index: number; 
+  user: any
+}> = ({ project, index , user }) => {
   const navigation = useNavigate();
 
   return (
@@ -18,7 +19,7 @@ const ProjectCard: React.FC<{
       }}
     >
       {/* Fixed width of cards */}
-      {index === 0 && (
+      {index === 0 && user.role !== "contractor" && (
         <div className="bg-red-400 text-white rounded p-2 mb-2 font-semibold text-md">
           {project.newCommentCount ?? 9} Notifiction
         </div>
@@ -97,12 +98,12 @@ const ProjectCard: React.FC<{
   );
 };
 
-const ProjectList: React.FC = ({ ProjectData }: any) => {
+const ProjectList: React.FC = ({ ProjectData , user }: any) => {
   return (
     <div className="flex flex-wrap justify-center">
       {ProjectData &&
         ProjectData.map((project: ProjectForDashboard, index: number) => (
-          <ProjectCard key={project.id} project={project} index={index} />
+          <ProjectCard key={project.id} project={project} index={index} user={user} />
         ))}
     </div>
   );
